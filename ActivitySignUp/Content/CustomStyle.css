@@ -1,0 +1,9 @@
+﻿body {
+    font-family: Verdana, Calibri, 'Book Antiqua';
+}
+
+.uc_bv
+{
+    text-transform:uppercase; 
+    color:blueviolet;
+}

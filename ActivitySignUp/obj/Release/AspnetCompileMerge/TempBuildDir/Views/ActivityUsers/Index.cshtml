@@ -1,0 +1,95 @@
+﻿@model IEnumerable<ActivitySignUp.Models.ActivityUser>
+
+@{
+    ViewBag.Title = "ActivityUserLists";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center uc_bv">Activity User Lists</h2>
+@using (Html.BeginForm("Index", "ActivityUsers", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-push-7 col-md-2">
+            Find by name :
+        </div>
+        <div class="col-md-push-7 col-md-2">
+            @Html.TextBox("searchString", null, ViewBag.CurrentFilter as string, new { placeholder = "Enter first name" })
+        </div>
+        <div class="col-md-push-7 col-md-1">
+            <input type="submit" value="Search" id="btnSearch" />
+        </div>
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table-bordered table-hover">
+    <tr>
+        <th class="text-center">@Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.MobileNumber)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th class="text-center">Action</th>
+    </tr>
+
+@foreach (var group in Model.GroupBy(x => x.ActivityType))
+{
+    <tr class="group-header">
+        <td colspan="10" class="text-center">
+            <span class="h3">Activity Name : @group.Key</span>
+        </td>
+    </tr>
+    foreach (var item in group) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    <tr class="group-footer">
+        <td colspan="10" class="text-center">
+            <span class="label label-success">Activity Sign Up Users for @group.Key is : @group.Count()</span>
+        </td>
+    </tr>
+}
+
+</table>
